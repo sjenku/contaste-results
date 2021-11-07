@@ -1,4 +1,4 @@
-package main
+package contaste
 
 type ContasteManager struct {
 }

@@ -1,4 +1,4 @@
-package main
+package contaste
 
 import (
 	"encoding/json"
