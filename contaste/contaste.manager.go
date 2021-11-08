@@ -31,7 +31,7 @@ func (comp *Competition) GetCoupleResults(coupleName string) []CoupleResult {
 						Category:   category,
 						Award:      compObj.Achivments[key].Award,
 						Outof:      compObj.Achivments[key].OutOf,
-						CoupleName: coupleName,
+						CoupleName: couple.Title,
 					}
 					coupleResults = append(coupleResults, coupleResult)
 				}
