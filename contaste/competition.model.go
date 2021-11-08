@@ -4,6 +4,13 @@ type ContasteManager struct {
 }
 type Competition map[string]CompetitionObject
 
+type CoupleResult struct {
+	Category   string
+	Award      string
+	Outof      string
+	CoupleName string
+}
+
 type CompetitionObject struct {
 	AgeFrom            int                  `json:"ageFrom,omitempty"`
 	AgeTill            int                  `json:"ageTill,omitempty"`

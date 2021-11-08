@@ -8,7 +8,38 @@ import (
 	"net/http"
 	"sort"
 	"strings"
+
+	"github.com/sjenku/contaste-results/utils"
 )
+
+func (comp *Competition) GetCoupleResults(coupleName string) []CoupleResult {
+	var coupleResults []CoupleResult
+
+	for _, compObj := range *comp {
+		if compObj.Achivments != nil {
+			for key, couple := range compObj.Dancers {
+				if utils.ContainesName(couple.Title, coupleName) {
+
+					var category string
+					if compObj.StoredContestTitle == "" {
+						category = fmt.Sprintf("%v-%v %v %v", compObj.AgeFrom, compObj.AgeTill, compObj.DancingLevel, compObj.Group)
+					} else {
+						category = compObj.StoredContestTitle
+					}
+
+					coupleResult := CoupleResult{
+						Category:   category,
+						Award:      compObj.Achivments[key].Award,
+						Outof:      compObj.Achivments[key].OutOf,
+						CoupleName: coupleName,
+					}
+					coupleResults = append(coupleResults, coupleResult)
+				}
+			}
+		}
+	}
+	return coupleResults
+}
 
 func (manager *ContasteManager) GetCompetitionInfo(url string) (Competition, error) {
 	req, _ := http.NewRequest(http.MethodGet, url, nil)
