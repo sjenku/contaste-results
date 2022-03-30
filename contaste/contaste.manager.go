@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io"
+	"io/ioutil"
 	"net/http"
 	"sort"
 	"strings"
@@ -49,7 +49,7 @@ func (manager *ContasteManager) GetCompetitionInfo(url string) (Competition, err
 	if err != nil {
 		return nil, fmt.Errorf("failed to do the get request,err: %v", err.Error())
 	}
-	body, err := io.ReadAll(res.Body)
+	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read the body,err: %v", err.Error())
 	}
