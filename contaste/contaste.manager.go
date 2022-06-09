@@ -12,31 +12,27 @@ import (
 	"github.com/sjenku/contaste-results/utils"
 )
 
-func (comp *Competition) GetCouplesResults() map[CoupleName][]CoupleResult {
-	var couplesResults map[string][]CoupleResult
+func (comp *Competition) GetCouplesResults() map[string][]CoupleResult {
+	var couplesResults map[string][]CoupleResult = map[string][]CoupleResult{}
 
-	for _ ,compObj := range *comp {
-		for key,couple := range compObj.Dancers {
+	for _, compObj := range *comp {
+		for key, couple := range compObj.Dancers {
 			// don't include excused couples/dancers.
 			if couple.Checkin != "excused" {
 				// first time dancers mantioned
+
+				coupleResult := CoupleResult{
+					Category:   compObj.StoredContestTitle,
+					Award:      compObj.Achivments[key].Award,
+					Outof:      compObj.Achivments[key].OutOf,
+					CoupleName: couple.Title,
+				}
+
 				if couplesResults[couple.Title] == nil {
-					couplesResults[couple.Title] = []CoupleResult{{
-						Category:   compObj.StoredContestTitle,
-						Award:      compObj.Achivments[key].Award,
-						Outof:      compObj.Achivments[key].OutOf,
-						CoupleName: couple.Title,
-					}}
-				// this dancers mantioned before
+					couplesResults[couple.Title] = []CoupleResult{coupleResult}
+					// this dancers mantioned before
 				} else {
-					couplesResults[couple.Title] = append(couplesResults[couple.Title], 
-						CoupleResult{
-							Category:   compObj.StoredContestTitle,
-						Award:      compObj.Achivments[key].Award,
-						Outof:      compObj.Achivments[key].OutOf,
-						CoupleName: couple.Title,
-						}
-					)
+					couplesResults[couple.Title] = append(couplesResults[couple.Title], coupleResult)
 				}
 			}
 		}
@@ -44,7 +40,6 @@ func (comp *Competition) GetCouplesResults() map[CoupleName][]CoupleResult {
 
 	return couplesResults
 }
-
 
 // Competition Methods
 func (comp *Competition) GetCoupleResults(coupleName string) []CoupleResult {
@@ -75,7 +70,6 @@ func (comp *Competition) GetCoupleResults(coupleName string) []CoupleResult {
 	}
 	return coupleResults
 }
-
 
 // ContasteManager methods
 func (manager *ContasteManager) GetCompetitionInfo(url string) (Competition, error) {
