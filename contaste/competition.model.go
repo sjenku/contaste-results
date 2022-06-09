@@ -4,6 +4,8 @@ type ContasteManager struct {
 }
 type Competition map[string]CompetitionObject
 
+type CoupleName string
+
 type CoupleResult struct {
 	Category   string
 	Award      string
@@ -34,5 +36,6 @@ type Achivment struct {
 }
 
 type Dancer struct {
-	Title string `json:"title,omitempty"`
+	Title   string `json:"title,omitempty"`
+	Checkin string `json:"checkin,omitempty"`
 }
